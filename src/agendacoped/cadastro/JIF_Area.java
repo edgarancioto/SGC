@@ -15,6 +15,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
      */
     public JIF_Area() {
         initComponents();
+        System.out.println("teste");
     }
 
     /**
