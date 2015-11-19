@@ -11,9 +11,6 @@ package agendacoped;
  */
 public class PrincipalView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PrincipalView
-     */
     public PrincipalView() {
         initComponents();
     }
