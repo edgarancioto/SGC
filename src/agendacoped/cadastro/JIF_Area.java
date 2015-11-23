@@ -13,6 +13,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         initComponents();
         entityManager.getTransaction().begin();
         setVisible(true);
+        
     }
 
     void busca(String txt){
@@ -44,6 +45,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
+        stringVerifier1 = new agendacoped.verifier.StringVerifier();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         nomeLabel = new javax.swing.JLabel();
@@ -76,6 +78,8 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         jLabel1.setText("Buscar");
 
         jLabel2.setText("limpar");
+
+        txt_nome.setInputVerifier(stringVerifier1);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), txt_nome, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -161,8 +165,10 @@ public class JIF_Area extends javax.swing.JInternalFrame {
                     .addComponent(btn_novo)
                     .addComponent(btn_excluir)
                     .addComponent(btn_salvar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
+
+        txt_nome.getAccessibleContext().setAccessibleDescription("Nome");
 
         bindingGroup.bind();
 
@@ -228,6 +234,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
     private javax.swing.JTable masterTable;
     private javax.swing.JLabel nomeLabel;
     private javax.persistence.Query query;
+    private agendacoped.verifier.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_busca;
     private javax.swing.JTextField txt_nome;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

@@ -322,17 +322,6 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout panel_exibicaoLayout = new javax.swing.GroupLayout(panel_exibicao);
-        panel_exibicao.setLayout(panel_exibicaoLayout);
-        panel_exibicaoLayout.setHorizontalGroup(
-            panel_exibicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 951, Short.MAX_VALUE)
-        );
-        panel_exibicaoLayout.setVerticalGroup(
-            panel_exibicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -358,7 +347,6 @@ public class PrincipalView extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JIF_Area panel_Area = new JIF_Area();
         panel_exibicao.add(panel_Area);
-        panel_Area.setVisible(true);
         panel_exibicao.revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
