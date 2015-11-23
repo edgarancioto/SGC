@@ -358,7 +358,6 @@ public class PrincipalView extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JIF_Area panel_Area = new JIF_Area();
         panel_exibicao.add(panel_Area);
-        panel_Area.setVisible(true);
         panel_exibicao.revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 

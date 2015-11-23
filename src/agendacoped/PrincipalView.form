@@ -532,6 +532,7 @@
           </Group>
         </DimensionLayout>
       </Layout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
     </Container>
   </SubComponents>
 </Form>
