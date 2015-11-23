@@ -272,7 +272,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/1.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/instrutor.jpg"))); // NOI18N
         jLabel7.setText("Gerenciar Instrutores");
         jLabel7.setToolTipText("");
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -281,7 +281,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/2.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/sala_aula.jpg"))); // NOI18N
         jLabel8.setText("Rotinas de Classe");
         jLabel8.setToolTipText("");
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -330,7 +330,7 @@ public class PrincipalView extends javax.swing.JFrame {
         );
         panel_exibicaoLayout.setVerticalGroup(
             panel_exibicaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -387,6 +387,14 @@ public class PrincipalView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PrincipalView().setVisible(true);
+                
+//                JIF_DadosVisualizacao jif_dadosPrinc = new JIF_DadosVisualizacao();
+//                
+//                
+//                jif_dadosPrinc.pack();
+//                jif_dadosPrinc.setLocationRelativeTo(null);
+//                jif_dadosPrinc.setLocation();
+//                jif_dadosPrinc.setVisible(true);
             }
         });
     }
