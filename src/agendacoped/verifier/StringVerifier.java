@@ -12,7 +12,7 @@ public class StringVerifier extends InputVerifier{
         private int TAMANHO_MAXIMO = 100;
         private int TAMANHO_MASCARA = 0;
 
-        private Color COR = new Color(204,204,255);
+        private Color COR = new Color(255,153,153);
     
     public Color getCOR() {
         return COR;
