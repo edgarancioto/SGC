@@ -5,10 +5,8 @@
  */
 package agendacoped.bean;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -33,8 +30,6 @@ import javax.persistence.Transient;
 @NamedQueries({
     @NamedQuery(name = "Instrutores.findAll", query = "SELECT i FROM Instrutores i")})
 public class Instrutores implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +45,7 @@ public class Instrutores implements Serializable {
     @Column(name = "STATUS")
     private Boolean status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "instrutoresId")
-    private Set<AgendaAula> agendaAulaSet;
+    private Collection<AgendaAula> agendaAulaCollection;
     @JoinColumn(name = "AREAS_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Areas areasId;
@@ -67,9 +62,7 @@ public class Instrutores implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getNome() {
@@ -77,9 +70,7 @@ public class Instrutores implements Serializable {
     }
 
     public void setNome(String nome) {
-        String oldNome = this.nome;
         this.nome = nome;
-        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     public String getTelefone() {
@@ -87,9 +78,7 @@ public class Instrutores implements Serializable {
     }
 
     public void setTelefone(String telefone) {
-        String oldTelefone = this.telefone;
         this.telefone = telefone;
-        changeSupport.firePropertyChange("telefone", oldTelefone, telefone);
     }
 
     public String getEmail() {
@@ -97,9 +86,7 @@ public class Instrutores implements Serializable {
     }
 
     public void setEmail(String email) {
-        String oldEmail = this.email;
         this.email = email;
-        changeSupport.firePropertyChange("email", oldEmail, email);
     }
 
     public Boolean getStatus() {
@@ -107,17 +94,15 @@ public class Instrutores implements Serializable {
     }
 
     public void setStatus(Boolean status) {
-        Boolean oldStatus = this.status;
         this.status = status;
-        changeSupport.firePropertyChange("status", oldStatus, status);
     }
 
-    public Set<AgendaAula> getAgendaAulaSet() {
-        return agendaAulaSet;
+    public Collection<AgendaAula> getAgendaAulaCollection() {
+        return agendaAulaCollection;
     }
 
-    public void setAgendaAulaSet(Set<AgendaAula> agendaAulaSet) {
-        this.agendaAulaSet = agendaAulaSet;
+    public void setAgendaAulaCollection(Collection<AgendaAula> agendaAulaCollection) {
+        this.agendaAulaCollection = agendaAulaCollection;
     }
 
     public Areas getAreasId() {
@@ -125,9 +110,7 @@ public class Instrutores implements Serializable {
     }
 
     public void setAreasId(Areas areasId) {
-        Areas oldAreasId = this.areasId;
         this.areasId = areasId;
-        changeSupport.firePropertyChange("areasId", oldAreasId, areasId);
     }
 
     @Override
@@ -153,14 +136,6 @@ public class Instrutores implements Serializable {
     @Override
     public String toString() {
         return "agendacoped.bean.Instrutores[ id=" + id + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

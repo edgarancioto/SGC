@@ -6,7 +6,7 @@
 package agendacoped.bean;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,9 +48,9 @@ public class Cursos implements Serializable {
     @ManyToOne(optional = false)
     private Areas areasId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cursosId")
-    private Set<UnidadeCurricular> unidadeCurricularSet;
+    private Collection<UnidadeCurricular> unidadeCurricularCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cursosId")
-    private Set<Evento> eventoSet;
+    private Collection<Evento> eventoCollection;
 
     public Cursos() {
     }
@@ -107,20 +107,20 @@ public class Cursos implements Serializable {
         this.areasId = areasId;
     }
 
-    public Set<UnidadeCurricular> getUnidadeCurricularSet() {
-        return unidadeCurricularSet;
+    public Collection<UnidadeCurricular> getUnidadeCurricularCollection() {
+        return unidadeCurricularCollection;
     }
 
-    public void setUnidadeCurricularSet(Set<UnidadeCurricular> unidadeCurricularSet) {
-        this.unidadeCurricularSet = unidadeCurricularSet;
+    public void setUnidadeCurricularCollection(Collection<UnidadeCurricular> unidadeCurricularCollection) {
+        this.unidadeCurricularCollection = unidadeCurricularCollection;
     }
 
-    public Set<Evento> getEventoSet() {
-        return eventoSet;
+    public Collection<Evento> getEventoCollection() {
+        return eventoCollection;
     }
 
-    public void setEventoSet(Set<Evento> eventoSet) {
-        this.eventoSet = eventoSet;
+    public void setEventoCollection(Collection<Evento> eventoCollection) {
+        this.eventoCollection = eventoCollection;
     }
 
     @Override

@@ -5,10 +5,8 @@
  */
 package agendacoped.bean;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  *
@@ -31,8 +28,6 @@ import javax.persistence.Transient;
 @NamedQueries({
     @NamedQuery(name = "SalasAula.findAll", query = "SELECT s FROM SalasAula s")})
 public class SalasAula implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +37,7 @@ public class SalasAula implements Serializable {
     @Column(name = "NOME")
     private String nome;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "salasAulaId")
-    private Set<Calendario> calendarioSet;
+    private Collection<Calendario> calendarioCollection;
 
     public SalasAula() {
     }
@@ -56,9 +51,7 @@ public class SalasAula implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getNome() {
@@ -66,17 +59,15 @@ public class SalasAula implements Serializable {
     }
 
     public void setNome(String nome) {
-        String oldNome = this.nome;
         this.nome = nome;
-        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
-    public Set<Calendario> getCalendarioSet() {
-        return calendarioSet;
+    public Collection<Calendario> getCalendarioCollection() {
+        return calendarioCollection;
     }
 
-    public void setCalendarioSet(Set<Calendario> calendarioSet) {
-        this.calendarioSet = calendarioSet;
+    public void setCalendarioCollection(Collection<Calendario> calendarioCollection) {
+        this.calendarioCollection = calendarioCollection;
     }
 
     @Override
@@ -102,14 +93,6 @@ public class SalasAula implements Serializable {
     @Override
     public String toString() {
         return "agendacoped.bean.SalasAula[ id=" + id + " ]";
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

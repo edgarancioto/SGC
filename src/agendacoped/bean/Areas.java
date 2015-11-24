@@ -1,9 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package agendacoped.bean;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,15 +18,16 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+/**
+ *
+ * @author Edgar
+ */
 @Entity
 @Table(name = "areas")
 @NamedQueries({
     @NamedQuery(name = "Areas.findAll", query = "SELECT a FROM Areas a")})
 public class Areas implements Serializable {
-    @Transient
-    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +37,9 @@ public class Areas implements Serializable {
     @Column(name = "NOME")
     private String nome;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areasId")
-    private Set<Cursos> cursosSet;
+    private Collection<Cursos> cursosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "areasId")
-    private Set<Instrutores> instrutoresSet;
+    private Collection<Instrutores> instrutoresCollection;
 
     public Areas() {
     }
@@ -49,9 +53,7 @@ public class Areas implements Serializable {
     }
 
     public void setId(Integer id) {
-        Integer oldId = this.id;
         this.id = id;
-        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getNome() {
@@ -59,25 +61,23 @@ public class Areas implements Serializable {
     }
 
     public void setNome(String nome) {
-        String oldNome = this.nome;
         this.nome = nome;
-        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
-    public Set<Cursos> getCursosSet() {
-        return cursosSet;
+    public Collection<Cursos> getCursosCollection() {
+        return cursosCollection;
     }
 
-    public void setCursosSet(Set<Cursos> cursosSet) {
-        this.cursosSet = cursosSet;
+    public void setCursosCollection(Collection<Cursos> cursosCollection) {
+        this.cursosCollection = cursosCollection;
     }
 
-    public Set<Instrutores> getInstrutoresSet() {
-        return instrutoresSet;
+    public Collection<Instrutores> getInstrutoresCollection() {
+        return instrutoresCollection;
     }
 
-    public void setInstrutoresSet(Set<Instrutores> instrutoresSet) {
-        this.instrutoresSet = instrutoresSet;
+    public void setInstrutoresCollection(Collection<Instrutores> instrutoresCollection) {
+        this.instrutoresCollection = instrutoresCollection;
     }
 
     @Override
@@ -102,15 +102,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return nome;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        changeSupport.removePropertyChangeListener(listener);
+        return "agendacoped.bean.Areas[ id=" + id + " ]";
     }
     
 }

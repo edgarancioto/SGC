@@ -6,7 +6,7 @@
 package agendacoped.bean;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,7 +44,7 @@ public class Evento implements Serializable {
     @ManyToOne(optional = false)
     private Cursos cursosId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "eventoId")
-    private Set<AgendaAula> agendaAulaSet;
+    private Collection<AgendaAula> agendaAulaCollection;
 
     public Evento() {
     }
@@ -85,12 +85,12 @@ public class Evento implements Serializable {
         this.cursosId = cursosId;
     }
 
-    public Set<AgendaAula> getAgendaAulaSet() {
-        return agendaAulaSet;
+    public Collection<AgendaAula> getAgendaAulaCollection() {
+        return agendaAulaCollection;
     }
 
-    public void setAgendaAulaSet(Set<AgendaAula> agendaAulaSet) {
-        this.agendaAulaSet = agendaAulaSet;
+    public void setAgendaAulaCollection(Collection<AgendaAula> agendaAulaCollection) {
+        this.agendaAulaCollection = agendaAulaCollection;
     }
 
     @Override
