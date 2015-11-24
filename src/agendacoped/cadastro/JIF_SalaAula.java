@@ -7,13 +7,12 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-public class JIF_Area extends javax.swing.JInternalFrame {
+public class JIF_SalaAula extends javax.swing.JInternalFrame {
 
-    public JIF_Area() {
+    public JIF_SalaAula() {
         initComponents();
         entityManager.getTransaction().begin();
         setVisible(true);
-        
     }
 
     void busca(String txt){
@@ -43,7 +42,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
-        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
+        query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM SalasAula a");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         stringVerifier1 = new agendacoped.verifier.StringVerifier();
         masterScrollPane = new javax.swing.JScrollPane();
@@ -58,7 +57,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         btn_excluir = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("Cadastro de Áreas");
+        setTitle("Cadastro de Salas de Aula");
 
         masterTable.getTableHeader().setReorderingAllowed(false);
 
@@ -66,7 +65,6 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nome}"));
         columnBinding.setColumnName("Nome");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
@@ -183,8 +181,8 @@ public class JIF_Area extends javax.swing.JInternalFrame {
             masterTable.clearSelection();
         } catch (RollbackException rex) {
             entityManager.getTransaction().begin();
-            List<agendacoped.bean.Areas> merged = new ArrayList<>(list.size());
-            for (agendacoped.bean.Areas a : list) {
+            List<agendacoped.bean.SalasAula> merged = new ArrayList<>(list.size());
+            for (agendacoped.bean.SalasAula a : list) {
                 merged.add(entityManager.merge(a));
             }
             list.clear();
@@ -195,7 +193,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
         busca("");
-        agendacoped.bean.Areas a = new agendacoped.bean.Areas();
+        agendacoped.bean.SalasAula a = new agendacoped.bean.SalasAula();
         entityManager.persist(a);
         list.add(a);
         int row = list.size() - 1;
@@ -207,9 +205,9 @@ public class JIF_Area extends javax.swing.JInternalFrame {
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
         int[] selected = masterTable.getSelectedRows();
         if(JOptionPane.showConfirmDialog(null, "Deseja realmente excluir "+((selected.length==1)?"este registro?":"estes registros?"))==0){
-            List<agendacoped.bean.Areas> toRemove = new ArrayList<>(selected.length);
+            List<agendacoped.bean.SalasAula> toRemove = new ArrayList<>(selected.length);
             for (int idx = 0; idx < selected.length; idx++) {
-                agendacoped.bean.Areas a = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+                agendacoped.bean.SalasAula a = list.get(masterTable.convertRowIndexToModel(selected[idx]));
                 toRemove.add(a);
                 entityManager.remove(a);
             }
@@ -230,7 +228,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private java.util.List<agendacoped.bean.Areas> list;
+    private java.util.List<agendacoped.bean.SalasAula> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
     private javax.swing.JLabel nomeLabel;
