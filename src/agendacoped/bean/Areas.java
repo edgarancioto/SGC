@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package agendacoped.bean;
 
 import java.beans.PropertyChangeListener;
@@ -22,10 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-/**
- *
- * @author Edgar
- */
 @Entity
 @Table(name = "areas")
 @NamedQueries({
@@ -111,7 +102,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.Areas[ id=" + id + " ]";
+        return nome;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {

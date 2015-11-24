@@ -13,7 +13,6 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         initComponents();
         entityManager.getTransaction().begin();
         setVisible(true);
-        
     }
 
     void busca(String txt){
