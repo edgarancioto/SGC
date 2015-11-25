@@ -1,7 +1,7 @@
 package agendacoped;
 
 import agendacoped.cadastro.JIF_Area;
-import agendacoped.cadastro.JIF_Curso_UnidadeCurricular;
+import agendacoped.cadastro.JIF_Curso;
 import agendacoped.cadastro.JIF_Instrutor;
 import agendacoped.cadastro.JIF_SalaAula;
 import javax.swing.JInternalFrame;
@@ -12,8 +12,9 @@ public class PrincipalView extends javax.swing.JFrame {
         initComponents();
     }
 
-    void addPanelExibicao(JInternalFrame jif){
-        panel_exibicao.removeAll();
+    public void addPanelExibicao(JInternalFrame jif, boolean limpar){
+        if(limpar)
+            panel_exibicao.removeAll();
         panel_exibicao.add(jif);
         panel_exibicao.revalidate();
     }
@@ -393,19 +394,19 @@ public class PrincipalView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        addPanelExibicao(new JIF_Area());
+        addPanelExibicao(new JIF_Area(),true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        addPanelExibicao(new JIF_SalaAula());
+        addPanelExibicao(new JIF_SalaAula(),true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        addPanelExibicao(new JIF_Instrutor());
+        addPanelExibicao(new JIF_Instrutor(),true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        addPanelExibicao(new JIF_Curso_UnidadeCurricular());
+        addPanelExibicao(new JIF_Curso(),true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     public static void main(String args[]) {
@@ -420,27 +421,15 @@ public class PrincipalView extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                new PrincipalView().setVisible(true);
-                
-//                JIF_DadosVisualizacao jif_dadosPrinc = new JIF_DadosVisualizacao();
-//                
-//                
-//                jif_dadosPrinc.pack();
-//                jif_dadosPrinc.setLocationRelativeTo(null);
-//                jif_dadosPrinc.setLocation();
-//                jif_dadosPrinc.setVisible(true);
+                _this = new PrincipalView();
+                _this.setVisible(true);
             }
         });
     }
@@ -474,4 +463,5 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JPanel panel_exibicao;
     // End of variables declaration//GEN-END:variables
+    public static PrincipalView _this;
 }
