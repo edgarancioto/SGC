@@ -1,6 +1,7 @@
 package agendacoped.cadastro;
 
 import agendacoped.PrincipalView;
+import agendacoped.bean.UnidadeCurricular;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -8,9 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-public class JIF_Curso extends javax.swing.JInternalFrame {
+public class JIF_Curso_UnidadeCurricular extends javax.swing.JInternalFrame {
 
-    public JIF_Curso() {
+    public JIF_Curso_UnidadeCurricular() {
         initComponents();
         entityManager.getTransaction().begin();
         setVisible(true);
@@ -47,7 +48,19 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         queryArea = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
         listCursos = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         listArea = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryArea.getResultList());
+        queryUc = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM UnidadeCurricular a");
+        listUc = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryUc.getResultList();
         stringVerifier1 = new agendacoped.verifier.StringVerifier();
+        JIF_UnidadeCurricular = new javax.swing.JInternalFrame();
+        cargaHLabel = new javax.swing.JLabel();
+        btn_novo1 = new javax.swing.JButton();
+        spin_cargaUnidade = new com.toedter.components.JSpinField();
+        masterScrollPane1 = new javax.swing.JScrollPane();
+        masterTable1 = new javax.swing.JTable();
+        btn_excluir1 = new javax.swing.JButton();
+        btn_salvar1 = new javax.swing.JButton();
+        txt_nome1 = new javax.swing.JTextField();
+        nomeLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -65,6 +78,84 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         btn_excluir = new javax.swing.JButton();
         label_cargaTotal = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+
+        JIF_UnidadeCurricular.setVisible(true);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${preferredSize}"), JIF_UnidadeCurricular, org.jdesktop.beansbinding.BeanProperty.create("preferredSize"));
+        bindingGroup.addBinding(binding);
+
+        cargaHLabel.setText("Carga Horária");
+
+        btn_novo1.setText("Novo");
+        btn_novo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_novo1ActionPerformed(evt);
+            }
+        });
+
+        masterScrollPane1.setViewportView(masterTable1);
+
+        btn_excluir1.setText("Excluir");
+        btn_excluir1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_excluir1ActionPerformed(evt);
+            }
+        });
+
+        btn_salvar1.setText("Salvar");
+        btn_salvar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_salvar1ActionPerformed(evt);
+            }
+        });
+
+        nomeLabel1.setText("Nome");
+
+        javax.swing.GroupLayout JIF_UnidadeCurricularLayout = new javax.swing.GroupLayout(JIF_UnidadeCurricular.getContentPane());
+        JIF_UnidadeCurricular.getContentPane().setLayout(JIF_UnidadeCurricularLayout);
+        JIF_UnidadeCurricularLayout.setHorizontalGroup(
+            JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JIF_UnidadeCurricularLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JIF_UnidadeCurricularLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_novo1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_excluir1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_salvar1))
+                    .addGroup(JIF_UnidadeCurricularLayout.createSequentialGroup()
+                        .addComponent(nomeLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txt_nome1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cargaHLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spin_cargaUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(masterScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        JIF_UnidadeCurricularLayout.setVerticalGroup(
+            JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JIF_UnidadeCurricularLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(masterScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nomeLabel1)
+                        .addComponent(txt_nome1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(spin_cargaUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cargaHLabel)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(JIF_UnidadeCurricularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_salvar1, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(btn_excluir1, javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(btn_novo1, javax.swing.GroupLayout.Alignment.CENTER))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setClosable(true);
         setTitle("Cadastro de Cursos");
@@ -102,7 +193,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listArea, combo_area);
         bindingGroup.addBinding(jComboBoxBinding);
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.areasId}"), combo_area, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.areasId}"), combo_area, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), combo_area, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
@@ -152,6 +243,10 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         bindingGroup.addBinding(binding);
 
         jButton1.setText("Cadastrar Unidades Curriculares");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), jButton1, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -290,14 +385,60 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_buscaKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        PrincipalView._this.addPanelExibicao(new JIF_UnidadeCurricular(), false);
+        PrincipalView._this.addPanelExibicao(JIF_UnidadeCurricular, false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_novo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novo1ActionPerformed
+        agendacoped.bean.UnidadeCurricular a = new agendacoped.bean.UnidadeCurricular();
+        entityManager.persist(a);
+        listUc.add(a);
+        int row = listUc.size() - 1;
+        masterTable.setRowSelectionInterval(row, row);
+        masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
+        txt_nome.requestFocus();
+    }//GEN-LAST:event_btn_novo1ActionPerformed
+
+    private void btn_excluir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluir1ActionPerformed
+        int[] selected = masterTable.getSelectedRows();
+        if(JOptionPane.showConfirmDialog(null, "Deseja realmente excluir "+((selected.length==1)?"este registro?":"estes registros?"))==0){
+            List<agendacoped.bean.UnidadeCurricular> toRemove = new ArrayList<>(selected.length);
+            for (int idx = 0; idx < selected.length; idx++) {
+                agendacoped.bean.UnidadeCurricular a = listUc.get(masterTable.convertRowIndexToModel(selected[idx]));
+                toRemove.add(a);
+                entityManager.remove(a);
+            }
+            listUc.removeAll(toRemove);
+            btn_salvarActionPerformed(null);
+        }
+    }//GEN-LAST:event_btn_excluir1ActionPerformed
+
+    private void btn_salvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvar1ActionPerformed
+        try {
+            entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            masterTable.clearSelection();
+        } catch (RollbackException rex) {
+            entityManager.getTransaction().begin();
+            List<agendacoped.bean.UnidadeCurricular> merged = new ArrayList<>(listUc.size());
+            for (agendacoped.bean.UnidadeCurricular a : listUc) {
+                merged.add(entityManager.merge(a));
+            }
+            listUc.clear();
+            listUc.addAll(merged);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar!");
+        }
+    }//GEN-LAST:event_btn_salvar1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JInternalFrame JIF_UnidadeCurricular;
     private javax.swing.JButton btn_excluir;
+    private javax.swing.JButton btn_excluir1;
     private javax.swing.JButton btn_novo;
+    private javax.swing.JButton btn_novo1;
     private javax.swing.JButton btn_salvar;
+    private javax.swing.JButton btn_salvar1;
+    private javax.swing.JLabel cargaHLabel;
     private javax.swing.JComboBox combo_area;
     private javax.persistence.EntityManager entityManager;
     private javax.swing.JButton jButton1;
@@ -308,16 +449,23 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
     private javax.swing.JLabel label_cargaTotal;
     private java.util.List<agendacoped.bean.Areas> listArea;
     private java.util.List<agendacoped.bean.Cursos> listCursos;
+    private java.util.List<UnidadeCurricular> listUc;
     private javax.swing.JScrollPane masterScrollPane;
+    private javax.swing.JScrollPane masterScrollPane1;
     private javax.swing.JTable masterTable;
+    private javax.swing.JTable masterTable1;
     private javax.swing.JLabel modalidadeLabel;
     private javax.swing.JLabel nomeLabel;
+    private javax.swing.JLabel nomeLabel1;
     private javax.persistence.Query query;
     private javax.persistence.Query queryArea;
+    private javax.persistence.Query queryUc;
+    private com.toedter.components.JSpinField spin_cargaUnidade;
     private agendacoped.verifier.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_busca;
     private javax.swing.JTextField txt_modalidade;
     private javax.swing.JTextField txt_nome;
+    private javax.swing.JTextField txt_nome1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

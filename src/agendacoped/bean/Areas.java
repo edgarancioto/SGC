@@ -102,7 +102,7 @@ public class Areas implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.Areas[ id=" + id + " ]";
+        return nome;
     }
     
 }
