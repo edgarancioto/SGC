@@ -5,6 +5,8 @@
  */
 package agendacoped.bean;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -20,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -30,6 +33,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "UnidadeCurricular.findAll", query = "SELECT u FROM UnidadeCurricular u")})
 public class UnidadeCurricular implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +65,9 @@ public class UnidadeCurricular implements Serializable {
     }
 
     public void setId(Integer id) {
+        Integer oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public String getNome() {
@@ -68,7 +75,9 @@ public class UnidadeCurricular implements Serializable {
     }
 
     public void setNome(String nome) {
+        String oldNome = this.nome;
         this.nome = nome;
+        changeSupport.firePropertyChange("nome", oldNome, nome);
     }
 
     public Integer getCargaH() {
@@ -76,7 +85,9 @@ public class UnidadeCurricular implements Serializable {
     }
 
     public void setCargaH(Integer cargaH) {
+        Integer oldCargaH = this.cargaH;
         this.cargaH = cargaH;
+        changeSupport.firePropertyChange("cargaH", oldCargaH, cargaH);
     }
 
     public Boolean getStatus() {
@@ -84,7 +95,9 @@ public class UnidadeCurricular implements Serializable {
     }
 
     public void setStatus(Boolean status) {
+        Boolean oldStatus = this.status;
         this.status = status;
+        changeSupport.firePropertyChange("status", oldStatus, status);
     }
 
     public Cursos getCursosId() {
@@ -92,7 +105,9 @@ public class UnidadeCurricular implements Serializable {
     }
 
     public void setCursosId(Cursos cursosId) {
+        Cursos oldCursosId = this.cursosId;
         this.cursosId = cursosId;
+        changeSupport.firePropertyChange("cursosId", oldCursosId, cursosId);
     }
 
     public Collection<AgendaAula> getAgendaAulaCollection() {
@@ -126,6 +141,14 @@ public class UnidadeCurricular implements Serializable {
     @Override
     public String toString() {
         return "agendacoped.bean.UnidadeCurricular[ id=" + id + " ]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }
