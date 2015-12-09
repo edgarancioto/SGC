@@ -2,7 +2,7 @@ package agendacoped;
 
 import agendacoped.cadastro.JIF_Agendamento;
 import agendacoped.cadastro.JIF_Area;
-import agendacoped.cadastro.JIF_Curso_UnidadeCurricular;
+import agendacoped.cadastro.JIF_Curso;
 import agendacoped.cadastro.JIF_Instrutor;
 import agendacoped.cadastro.JIF_SalaAula;
 import javax.swing.JInternalFrame;
@@ -16,6 +16,7 @@ public class PrincipalView extends javax.swing.JFrame {
     public void addPanelExibicao(JInternalFrame jif, boolean limpar){
         if(limpar)
             panel_exibicao.removeAll();
+        panel_exibicao.repaint();
         panel_exibicao.add(jif);
         panel_exibicao.revalidate();
     }
@@ -424,7 +425,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        addPanelExibicao(new JIF_Curso_UnidadeCurricular(),true);
+        addPanelExibicao(new JIF_Curso(),true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
