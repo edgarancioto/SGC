@@ -1,27 +1,81 @@
 package agendacoped.cadastro;
 
+import agendacoped.bean.Cursos;
+import agendacoped.bean.Evento;
 import agendacoped.calendario.JP_Calendario;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import javax.persistence.RollbackException;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
+    Evento eventoSelecionado;
+    ArrayList<JComponent> listComponents = new ArrayList<>();
+    
     public JIF_Agendamento() {
         initComponents();
+        
+        listComponents.add(jc_periodo);
+        listComponents.add(txt_inicioAula);
+        listComponents.add(txt_cargaHoraria);
+        listComponents.add(jc_sala);
+        listComponents.add(jc_unidade);
+        listComponents.add(jc_instrutor);
+                
+        entityManager.getTransaction().begin();
         setVisible(true);
         criaCalendario();
     }
 
     final void criaCalendario(){
         GregorianCalendar gc = new GregorianCalendar();
-        
         JP_Calendario calendario = new JP_Calendario(gc.get(GregorianCalendar.MONTH)+1, gc.get(GregorianCalendar.YEAR));
         jp_calendario.add(calendario).setBounds(0, 0, 350, 250);
+    }
+    
+    void desbloqueiaCampo(int indice){
+        listComponents.get(indice-1).setEnabled(true);
+        for(int i = indice; i<listComponents.size(); i++)
+            listComponents.get(i).setEnabled(false);
+    }
+    
+    Evento verificaEventoExistente(){
+        try{
+            int i = Integer.parseInt(txt_numeroEvento.getText());
+            for(Evento e:listEvento)
+                if(e.getNumero()==i)
+                    return e;
+        }catch(Exception e){}
+        return null;
+    }
+    
+    void salvar(){
+        try {
+            entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+        } catch (RollbackException rex) {
+            entityManager.getTransaction().begin();
+            JOptionPane.showMessageDialog(null, "Erro ao salvar!");
+        }
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
+        queryEvento = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Evento e");
+        listEvento = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryEvento.getResultList();
+        queryCursos = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Cursos c");
+        listCursos = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryCursos.getResultList();
+        jd_evento = new javax.swing.JDialog();
+        txt_numeroEvento = new javax.swing.JTextField();
+        jc_curso = new javax.swing.JComboBox();
+        btn_carregar = new javax.swing.JButton();
+        jl_eventoStatus = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -31,13 +85,13 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        txt_evento = new javax.swing.JTextField();
+        txt_eventoBloq = new javax.swing.JTextField();
         txt_cargaHoraria = new javax.swing.JFormattedTextField();
         txt_inicioAula = new javax.swing.JFormattedTextField();
-        cb_instrutor = new javax.swing.JComboBox();
-        cb_periodo = new javax.swing.JComboBox();
-        cb_unidade = new javax.swing.JComboBox();
-        cb_sala = new javax.swing.JComboBox();
+        jc_instrutor = new javax.swing.JComboBox();
+        jc_periodo = new javax.swing.JComboBox();
+        jc_unidade = new javax.swing.JComboBox();
+        jc_sala = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jp_calendario = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -45,6 +99,68 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         bt_salvar = new javax.swing.JButton();
         bt_agendar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+
+        jd_evento.setTitle("Cadastro de Evento");
+        jd_evento.setAlwaysOnTop(true);
+        jd_evento.setMinimumSize(new java.awt.Dimension(350, 105));
+        jd_evento.setModal(true);
+        jd_evento.setResizable(false);
+
+        txt_numeroEvento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_numeroEventoKeyReleased(evt);
+            }
+        });
+
+        jc_curso.setEnabled(false);
+
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listCursos, jc_curso);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        btn_carregar.setText("Carregar");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, txt_numeroEvento, org.jdesktop.beansbinding.ELProperty.create("${text!=''}"), btn_carregar, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        btn_carregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_carregarActionPerformed(evt);
+            }
+        });
+
+        jl_eventoStatus.setForeground(new java.awt.Color(255, 0, 0));
+
+        javax.swing.GroupLayout jd_eventoLayout = new javax.swing.GroupLayout(jd_evento.getContentPane());
+        jd_evento.getContentPane().setLayout(jd_eventoLayout);
+        jd_eventoLayout.setHorizontalGroup(
+            jd_eventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_eventoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_eventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_eventoLayout.createSequentialGroup()
+                        .addComponent(txt_numeroEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jc_curso, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 3, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_eventoLayout.createSequentialGroup()
+                        .addComponent(jl_eventoStatus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_carregar)))
+                .addContainerGap())
+        );
+        jd_eventoLayout.setVerticalGroup(
+            jd_eventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_eventoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jd_eventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_numeroEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jc_curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jd_eventoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_carregar)
+                    .addComponent(jl_eventoStatus))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jLabel2.setText("Instrutor");
 
@@ -62,22 +178,62 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Evento");
 
-        txt_evento.setEditable(false);
-
-        txt_cargaHoraria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-
-        txt_inicioAula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-
-        cb_periodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Manhã", "Tarde", "Noite", "Integral" }));
-        cb_periodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_periodoActionPerformed(evt);
+        txt_eventoBloq.setEditable(false);
+        txt_eventoBloq.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_eventoBloqMouseClicked(evt);
             }
         });
 
-        cb_unidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txt_cargaHoraria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txt_cargaHoraria.setEnabled(false);
+        txt_cargaHoraria.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_cargaHorariaFocusLost(evt);
+            }
+        });
 
-        cb_sala.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txt_inicioAula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txt_inicioAula.setEnabled(false);
+        txt_inicioAula.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_inicioAulaFocusLost(evt);
+            }
+        });
+
+        jc_instrutor.setEnabled(false);
+        jc_instrutor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jc_instrutorActionPerformed(evt);
+            }
+        });
+
+        jc_periodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Manhã", "Tarde", "Noite", "Integral" }));
+        jc_periodo.setSelectedIndex(-1);
+        jc_periodo.setEnabled(false);
+        jc_periodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jc_periodoActionPerformed(evt);
+            }
+        });
+
+        jc_unidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jc_unidade.setSelectedIndex(-1);
+        jc_unidade.setEnabled(false);
+        jc_unidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jc_unidadeActionPerformed(evt);
+            }
+        });
+
+        jc_sala.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jc_sala.setSelectedIndex(-1);
+        jc_sala.setEnabled(false);
+        jc_sala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jc_salaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,15 +241,15 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txt_evento)
+                        .addComponent(txt_eventoBloq)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jc_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -107,16 +263,16 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_sala, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jc_sala, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_unidade, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jc_unidade, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_instrutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jc_instrutor, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txt_cargaHoraria, txt_inicioAula});
@@ -125,26 +281,29 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_evento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(cb_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txt_inicioAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txt_cargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel7)
+                        .addComponent(jc_periodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)
+                        .addComponent(txt_inicioAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
+                        .addComponent(txt_cargaHoraria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addComponent(txt_eventoBloq, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cb_unidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jc_unidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(cb_sala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jc_sala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
-                    .addComponent(cb_instrutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jc_instrutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txt_cargaHoraria, txt_eventoBloq, txt_inicioAula});
 
         jp_calendario.setMaximumSize(new java.awt.Dimension(350, 250));
         jp_calendario.setMinimumSize(new java.awt.Dimension(350, 250));
@@ -168,11 +327,6 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         bt_salvar.setText("Salvar Alterações");
 
         bt_agendar.setText("Agendar");
-        bt_agendar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_agendarActionPerformed(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -188,9 +342,9 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jp_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bt_agendar, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                        .addComponent(bt_agendar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -220,7 +374,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
@@ -233,24 +387,89 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0))
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_agendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_agendarActionPerformed
-       // System.out.println(jCalendar1.);
-    }//GEN-LAST:event_bt_agendarActionPerformed
+    private void txt_eventoBloqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_eventoBloqMouseClicked
+        jd_evento.setLocation(350, 240);
+        jd_evento.setVisible(true);
+        txt_numeroEvento.setText("");
+        jd_evento.revalidate();
+    }//GEN-LAST:event_txt_eventoBloqMouseClicked
 
-    private void cb_periodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_periodoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cb_periodoActionPerformed
+    private void txt_numeroEventoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_numeroEventoKeyReleased
+        if(txt_numeroEvento.getText().isEmpty()){
+            jl_eventoStatus.setText("");
+            jc_curso.setEnabled(false);
+            jc_curso.setSelectedIndex(-1);
+        }else{
+            Evento e = verificaEventoExistente();
+            if(e==null){
+                jl_eventoStatus.setText("Criação de Evento");
+                jc_curso.setEnabled(true);
+                jc_curso.setSelectedIndex(-1);
+            }else{
+                jl_eventoStatus.setText("Alteração de Evento");
+                jc_curso.setEnabled(false);
+                jc_curso.setSelectedItem(e.getCursosId());
+            }
+        }
+    }//GEN-LAST:event_txt_numeroEventoKeyReleased
+
+    private void btn_carregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_carregarActionPerformed
+        Evento e = verificaEventoExistente();
+        if(e==null){
+            Evento evento = new Evento();
+            evento.setNumero(Integer.parseInt(txt_numeroEvento.getText()));
+            evento.setCursosId((Cursos) jc_curso.getSelectedItem());
+            listEvento.add(evento);
+            eventoSelecionado = evento;
+        }else
+            eventoSelecionado = e;
+        entityManager.persist(eventoSelecionado);
+        salvar();
+        jd_evento.setVisible(false);
+        txt_eventoBloq.setText(eventoSelecionado.getNumero()+"");
+        desbloqueiaCampo(1);
+    }//GEN-LAST:event_btn_carregarActionPerformed
+
+    private void jc_periodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_periodoActionPerformed
+        if(jc_periodo.getSelectedIndex()!=-1)
+            desbloqueiaCampo(2);
+    }//GEN-LAST:event_jc_periodoActionPerformed
+
+    private void txt_inicioAulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_inicioAulaFocusLost
+        if(!txt_inicioAula.getText().isEmpty())
+            desbloqueiaCampo(3);
+    }//GEN-LAST:event_txt_inicioAulaFocusLost
+
+    private void txt_cargaHorariaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_cargaHorariaFocusLost
+        if(!txt_cargaHoraria.getText().isEmpty())
+            desbloqueiaCampo(4);
+    }//GEN-LAST:event_txt_cargaHorariaFocusLost
+
+    private void jc_salaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_salaActionPerformed
+        if(jc_sala.getSelectedIndex()!=-1)
+            desbloqueiaCampo(5);
+    }//GEN-LAST:event_jc_salaActionPerformed
+
+    private void jc_unidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_unidadeActionPerformed
+        if(jc_unidade.getSelectedIndex()!=-1)
+            desbloqueiaCampo(6);
+    }//GEN-LAST:event_jc_unidadeActionPerformed
+
+    private void jc_instrutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_instrutorActionPerformed
+//        if(jc_instrutor.getSelectedIndex()!=-1)
+//            desbloqueiaCampo(7);
+    }//GEN-LAST:event_jc_instrutorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_agendar;
     private javax.swing.JButton bt_salvar;
-    private javax.swing.JComboBox cb_instrutor;
-    private javax.swing.JComboBox cb_periodo;
-    private javax.swing.JComboBox cb_sala;
-    private javax.swing.JComboBox cb_unidade;
+    private javax.swing.JButton btn_carregar;
+    private javax.persistence.EntityManager entityManager;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -264,9 +483,22 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox jc_curso;
+    private javax.swing.JComboBox jc_instrutor;
+    private javax.swing.JComboBox jc_periodo;
+    private javax.swing.JComboBox jc_sala;
+    private javax.swing.JComboBox jc_unidade;
+    private javax.swing.JDialog jd_evento;
+    private javax.swing.JLabel jl_eventoStatus;
     private javax.swing.JPanel jp_calendario;
+    private java.util.List<Cursos> listCursos;
+    private java.util.List<Evento> listEvento;
+    private javax.persistence.Query queryCursos;
+    private javax.persistence.Query queryEvento;
     private javax.swing.JFormattedTextField txt_cargaHoraria;
-    private javax.swing.JTextField txt_evento;
+    private javax.swing.JTextField txt_eventoBloq;
     private javax.swing.JFormattedTextField txt_inicioAula;
+    private javax.swing.JTextField txt_numeroEvento;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

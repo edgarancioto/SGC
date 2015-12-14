@@ -145,7 +145,7 @@ public class Cursos implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.Cursos[ id=" + id + " ]";
+        return nome;
     }
     
 }

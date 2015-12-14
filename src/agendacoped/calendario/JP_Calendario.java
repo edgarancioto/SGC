@@ -21,7 +21,7 @@ public class JP_Calendario extends javax.swing.JPanel {
 
     final void exibeDias(int mes, int ano){
         panel_exibicao.removeAll();
-        jl_mes.setText(meses[mes]);
+        jl_mes.setText(meses[mes]+" - "+ano);
         posicionaDias(mes, ano);
         panel_exibicao.revalidate();
         panel_exibicao.repaint();
