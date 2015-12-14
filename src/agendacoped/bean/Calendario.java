@@ -44,6 +44,8 @@ public class Calendario implements Serializable {
     @Column(name = "HORA_INICIO")
     @Temporal(TemporalType.TIME)
     private Date horaInicio;
+    @Column(name = "PERIODO")
+    private Integer periodo;
     @Column(name = "STATUS")
     private Boolean status;
     @JoinColumn(name = "SALAS_AULA_ID", referencedColumnName = "ID")
@@ -90,6 +92,14 @@ public class Calendario implements Serializable {
 
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
+    }
+
+    public Integer getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Integer periodo) {
+        this.periodo = periodo;
     }
 
     public Boolean getStatus() {

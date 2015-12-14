@@ -135,7 +135,7 @@ public class Instrutores implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.Instrutores[ id=" + id + " ]";
+        return nome;
     }
     
 }

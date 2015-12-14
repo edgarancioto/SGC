@@ -33,6 +33,8 @@ import javax.persistence.Transient;
 @NamedQueries({
     @NamedQuery(name = "UnidadeCurricular.findAll", query = "SELECT u FROM UnidadeCurricular u")})
 public class UnidadeCurricular implements Serializable {
+    @Column(name = "PERIODO")
+    private Integer periodo;
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -140,7 +142,7 @@ public class UnidadeCurricular implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.UnidadeCurricular[ id=" + id + " ]";
+        return nome;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -149,6 +151,14 @@ public class UnidadeCurricular implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
+    }
+
+    public Integer getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Integer periodo) {
+        this.periodo = periodo;
     }
     
 }

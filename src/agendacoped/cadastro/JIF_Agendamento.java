@@ -1,11 +1,16 @@
 package agendacoped.cadastro;
 
+import agendacoped.bean.Calendario;
 import agendacoped.bean.Cursos;
 import agendacoped.bean.Evento;
+import agendacoped.bean.Instrutores;
+import agendacoped.bean.SalasAula;
+import agendacoped.bean.UnidadeCurricular;
 import agendacoped.calendario.JP_Calendario;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.persistence.RollbackException;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
@@ -16,14 +21,13 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     
     public JIF_Agendamento() {
         initComponents();
-        
         listComponents.add(jc_periodo);
         listComponents.add(txt_inicioAula);
         listComponents.add(txt_cargaHoraria);
         listComponents.add(jc_sala);
         listComponents.add(jc_unidade);
         listComponents.add(jc_instrutor);
-                
+        listComponents.add(bt_agendar);
         entityManager.getTransaction().begin();
         setVisible(true);
         criaCalendario();
@@ -37,6 +41,9 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     
     void desbloqueiaCampo(int indice){
         listComponents.get(indice-1).setEnabled(true);
+        listComponents.get(indice-1).requestFocus();
+        if(listComponents.get(indice-1) instanceof JComboBox)
+            ((JComboBox)listComponents.get(indice-1)).setSelectedIndex(-1);
         for(int i = indice; i<listComponents.size(); i++)
             listComponents.get(i).setEnabled(false);
     }
@@ -61,6 +68,18 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         }
     }
     
+    void filtraDados(){
+        ArrayList<Calendario> list = new ArrayList<>();
+        for(Calendario c:listCalendarioFull)
+            if((c.getSalasAulaId() == listSala.get(jc_sala.getSelectedIndex())
+                || c.getAgendaAulaId().getInstrutoresId() == listInstrutor.get(jc_instrutor.getSelectedIndex()))
+                && c.getPeriodo() == jc_periodo.getSelectedIndex()+1){
+                    list.add(c);
+                    System.out.println("agendou");
+                    System.out.println(c);
+            }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -68,9 +87,17 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
         queryEvento = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Evento e");
-        listEvento = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryEvento.getResultList();
         queryCursos = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Cursos c");
+        querySala = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM SalasAula e");
+        queryUnidade = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM UnidadeCurricular e");
+        queryInstrutor = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT e FROM Instrutores e");
+        queryCalendario = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT c FROM Calendario c\n");
+        listEvento = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryEvento.getResultList();
         listCursos = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryCursos.getResultList();
+        listSala = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : querySala.getResultList();
+        listUnidade = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryUnidade.getResultList();
+        listInstrutor = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryInstrutor.getResultList();
+        listCalendarioFull = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryCalendario.getResultList();
         jd_evento = new javax.swing.JDialog();
         txt_numeroEvento = new javax.swing.JTextField();
         jc_curso = new javax.swing.JComboBox();
@@ -202,6 +229,10 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         });
 
         jc_instrutor.setEnabled(false);
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listInstrutor, jc_instrutor);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         jc_instrutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jc_instrutorActionPerformed(evt);
@@ -217,18 +248,24 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             }
         });
 
-        jc_unidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jc_unidade.setSelectedIndex(-1);
         jc_unidade.setEnabled(false);
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listUnidade, jc_unidade);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         jc_unidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jc_unidadeActionPerformed(evt);
             }
         });
 
-        jc_sala.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jc_sala.setSelectedIndex(-1);
         jc_sala.setEnabled(false);
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listSala, jc_sala);
+        bindingGroup.addBinding(jComboBoxBinding);
+
         jc_sala.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jc_salaActionPerformed(evt);
@@ -327,6 +364,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         bt_salvar.setText("Salvar Alterações");
 
         bt_agendar.setText("Agendar");
+        bt_agendar.setEnabled(false);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -436,7 +474,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_carregarActionPerformed
 
     private void jc_periodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_periodoActionPerformed
-        if(jc_periodo.getSelectedIndex()!=-1)
+        if(jc_periodo.getSelectedIndex()!=-1 && evt.getModifiers()!=0)
             desbloqueiaCampo(2);
     }//GEN-LAST:event_jc_periodoActionPerformed
 
@@ -451,18 +489,20 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_cargaHorariaFocusLost
 
     private void jc_salaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_salaActionPerformed
-        if(jc_sala.getSelectedIndex()!=-1)
+        if(jc_sala.getSelectedIndex()!=-1 && evt.getModifiers()!=0)
             desbloqueiaCampo(5);
     }//GEN-LAST:event_jc_salaActionPerformed
 
     private void jc_unidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_unidadeActionPerformed
-        if(jc_unidade.getSelectedIndex()!=-1)
+        if(jc_unidade.getSelectedIndex()!=-1 && evt.getModifiers()!=0)
             desbloqueiaCampo(6);
     }//GEN-LAST:event_jc_unidadeActionPerformed
 
     private void jc_instrutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_instrutorActionPerformed
-//        if(jc_instrutor.getSelectedIndex()!=-1)
-//            desbloqueiaCampo(7);
+        if(jc_instrutor.getSelectedIndex()!=-1 && evt.getModifiers()!=0){
+            desbloqueiaCampo(7);
+            filtraDados();
+        }
     }//GEN-LAST:event_jc_instrutorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -491,10 +531,18 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private javax.swing.JDialog jd_evento;
     private javax.swing.JLabel jl_eventoStatus;
     private javax.swing.JPanel jp_calendario;
+    private java.util.List<Calendario> listCalendarioFull;
     private java.util.List<Cursos> listCursos;
     private java.util.List<Evento> listEvento;
+    private java.util.List<Instrutores> listInstrutor;
+    private java.util.List<SalasAula> listSala;
+    private java.util.List<UnidadeCurricular> listUnidade;
+    private javax.persistence.Query queryCalendario;
     private javax.persistence.Query queryCursos;
     private javax.persistence.Query queryEvento;
+    private javax.persistence.Query queryInstrutor;
+    private javax.persistence.Query querySala;
+    private javax.persistence.Query queryUnidade;
     private javax.swing.JFormattedTextField txt_cargaHoraria;
     private javax.swing.JTextField txt_eventoBloq;
     private javax.swing.JFormattedTextField txt_inicioAula;

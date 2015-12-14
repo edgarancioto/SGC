@@ -92,7 +92,7 @@ public class SalasAula implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.SalasAula[ id=" + id + " ]";
+        return nome;
     }
     
 }

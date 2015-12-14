@@ -15,6 +15,49 @@
         </Property>
       </Properties>
     </Component>
+    <Component class="javax.persistence.Query" name="queryCursos">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT c FROM Cursos c"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="querySala">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT e FROM SalasAula e"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="queryUnidade">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT e FROM UnidadeCurricular e"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="queryInstrutor">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT e FROM Instrutores e"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.persistence.Query" name="queryCalendario">
+      <Properties>
+        <Property name="query" type="java.lang.String" value="SELECT c FROM Calendario c&#xa;"/>
+        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
+          <ComponentRef name="entityManager"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+      </AuxValues>
+    </Component>
     <Component class="java.util.List" name="listEvento">
       <Properties>
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
@@ -25,14 +68,6 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Evento&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.persistence.Query" name="queryCursos">
-      <Properties>
-        <Property name="query" type="java.lang.String" value="SELECT c FROM Cursos c"/>
-        <Property name="entityManager" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$EMProperty$EntityManagerEditor">
-          <ComponentRef name="entityManager"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="java.util.List" name="listCursos">
       <Properties>
         <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
@@ -41,6 +76,46 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Cursos&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="java.util.List" name="listSala">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="querySala"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;SalasAula&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="java.util.List" name="listUnidade">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="queryUnidade"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;UnidadeCurricular&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="java.util.List" name="listInstrutor">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="queryInstrutor"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Instrutores&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="java.util.List" name="listCalendarioFull">
+      <Properties>
+        <Property name="query" type="java.lang.Object" editor="org.netbeans.modules.form.j2ee.J2EEPropertyModifier$QueryBeanProperty$QueryEditor">
+          <ComponentRef name="queryCalendario"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Calendario&gt;"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JDialog" name="jd_evento">
@@ -318,11 +393,11 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jc_instrutor">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
-            </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="listInstrutor" target="jc_instrutor" targetPath="elements" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jc_instrutorActionPerformed"/>
           </Events>
@@ -346,34 +421,24 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jc_unidade">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
             <Property name="selectedIndex" type="int" value="-1"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="listUnidade" target="jc_unidade" targetPath="elements" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jc_unidadeActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="jc_sala">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
             <Property name="selectedIndex" type="int" value="-1"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <BindingProperties>
+            <BindingProperty name="elements" source="listSala" target="jc_sala" targetPath="elements" updateStrategy="0" immediately="false"/>
+          </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jc_salaActionPerformed"/>
           </Events>
@@ -484,6 +549,7 @@
         <Component class="javax.swing.JButton" name="bt_agendar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Agendar"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
