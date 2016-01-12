@@ -1,5 +1,6 @@
 package agendacoped.calendario;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -11,18 +12,21 @@ public class JP_Calendario extends javax.swing.JPanel {
     String[] meses = new String[]{"JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", 
         "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
     
+    ArrayList<JL_Dia> listDias = new ArrayList<>();
+    
     public JP_Calendario(int mes, int ano) {
         this.mes = mes-1;
         this.ano = ano;
         initComponents();
-        
         exibeDias(this.mes, this.ano);
     }
 
     final void exibeDias(int mes, int ano){
         panel_exibicao.removeAll();
+        
         jl_mes.setText(meses[mes]+" - "+ano);
         posicionaDias(mes, ano);
+        
         panel_exibicao.revalidate();
         panel_exibicao.repaint();
         revalidate();
@@ -37,10 +41,22 @@ public class JP_Calendario extends javax.swing.JPanel {
             for(int i = dia_da_semana; i < 7; i++)
                 if(contador <= quantidade_dias){
                     JL_Dia l = new JL_Dia(contador++);
+                    listDias.add(l);
                     panel_exibicao.add(l).setBounds(posicoes_h[i], posicoes_v[j], 50, 25);
+                    if(i==0)
+                        l.setDomingo();
                 }
             dia_da_semana = 0;
         }
+    }
+    
+    public void reservaDia(int dia){
+        listDias.get(dia-1).setOcupado();
+    }
+    
+    public void liberaDias(){
+        for(JL_Dia l: listDias)
+            l.setDesocupado();
     }
     
     @SuppressWarnings("unchecked")
@@ -65,7 +81,7 @@ public class JP_Calendario extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(360, 250));
         setPreferredSize(new java.awt.Dimension(360, 250));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 153));
 
         jl_mes.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jl_mes.setForeground(new java.awt.Color(255, 255, 255));

@@ -65,7 +65,9 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
         jComboBox1 = new javax.swing.JComboBox();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Cadastro de Instrutores");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 16x16.png"))); // NOI18N
 
         masterTable.getTableHeader().setReorderingAllowed(false);
 
@@ -108,6 +110,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
 
         jLabel2.setText("limpar");
 
+        btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/novo.png"))); // NOI18N
         btn_novo.setText("Novo");
         btn_novo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,6 +118,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
             }
         });
 
+        btn_excluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/excluir.png"))); // NOI18N
         btn_excluir.setText("Excluir");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), btn_excluir, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
@@ -126,6 +130,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
             }
         });
 
+        btn_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/salvar.png"))); // NOI18N
         btn_salvar.setText("Salvar");
         btn_salvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +208,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
                     .addComponent(txt_busca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -218,11 +223,13 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
                     .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(btn_novo)
-                    .addComponent(btn_excluir)
-                    .addComponent(btn_salvar))
+                    .addComponent(btn_novo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_excluir, btn_novo, btn_salvar});
 
         bindingGroup.bind();
 

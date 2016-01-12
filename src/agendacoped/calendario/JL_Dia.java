@@ -23,16 +23,28 @@ public class JL_Dia extends JLabel{
                 if(evt.getClickCount()>1)
                     marca(); 
                 else
-                    seleciona();
+                    setOcupado();
                 revalidate();
             }
         });
     }
     
-    void seleciona(){
+    void setDomingo(){
+        setForeground(Color.red);
+    }
+    
+    void setOcupado(){
+        System.out.println("ocupado");
         this.setBackground(Color.gray);
+        revalidate();
     }
 
+    void setDesocupado(){
+        System.out.println("desocupado");
+        this.setBackground(Color.white);
+        revalidate();
+    }
+    
     void marca(){
         this.setBackground(Color.red);
     }

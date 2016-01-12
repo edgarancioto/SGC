@@ -9,10 +9,41 @@ import javax.swing.JInternalFrame;
 
 public class PrincipalView extends javax.swing.JFrame {
 
+    JIF_Agendamento jif_Agendamento;
+    JIF_Area jif_Area;
+    JIF_Curso jif_Curso;
+    JIF_Instrutor jif_Instrutor;
+    JIF_SalaAula jif_SalaAula;
+    
     public PrincipalView() {
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 24x24.png")).getImage());
         initComponents();
+        carregaFrames();
+        panel_exibicao.add(jl_loading);
+        panel_exibicao.revalidate();
     }
 
+    final void carregaFrames(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                jif_Agendamento = new JIF_Agendamento();
+                jif_Area = new JIF_Area();
+                jif_Curso = new JIF_Curso();
+                jif_Instrutor = new JIF_Instrutor();
+                jif_SalaAula = new JIF_SalaAula();
+                jButton1.setEnabled(true);
+                jButton2.setEnabled(true);
+                jButton3.setEnabled(true);
+                jButton4.setEnabled(true);
+                jButton5.setEnabled(true);
+                panel_exibicao.removeAll();
+                panel_exibicao.repaint();
+                panel_exibicao.revalidate();
+            }
+        }).start();
+    }
+    
     public void addPanelExibicao(JInternalFrame jif, boolean limpar){
         if(limpar)
             panel_exibicao.removeAll();
@@ -44,15 +75,15 @@ public class PrincipalView extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jCalendar1 = new com.toedter.calendar.JCalendar();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jl_loading = new javax.swing.JLabel();
         panel_exibicao = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setForeground(new java.awt.Color(204, 204, 255));
@@ -282,63 +313,73 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        jl_loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Loading.gif"))); // NOI18N
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema Gerenciador Corporativo");
         setExtendedState(MAXIMIZED_BOTH);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Funções", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(51, 51, 255)));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/instrutor.jpg"))); // NOI18N
-        jLabel7.setText("Gerenciar Instrutores");
-        jLabel7.setToolTipText("");
-        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIconTextGap(-12);
-        jLabel7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/sala_aula.jpg"))); // NOI18N
-        jLabel8.setText("Rotinas de Classe");
-        jLabel8.setToolTipText("");
-        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIconTextGap(-1);
-        jLabel8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jButton1.setText("Area");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento.png"))); // NOI18N
+        jButton5.setText("Agendamento");
+        jButton5.setEnabled(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sala de Aula");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Instrutores");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Cursos.png"))); // NOI18N
         jButton4.setText("Cursos");
+        jButton4.setEnabled(false);
+        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Agendamento");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Sala de Aula.png"))); // NOI18N
+        jButton2.setText("Sala de Aula");
+        jButton2.setEnabled(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Area.png"))); // NOI18N
+        jButton1.setText("Area");
+        jButton1.setEnabled(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Instrutor.png"))); // NOI18N
+        jButton3.setText("Instrutores");
+        jButton3.setEnabled(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Senai.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -346,47 +387,38 @@ public class PrincipalView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(jButton4))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton5)))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(32, 32, 32))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3, jButton4, jButton5});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jButton5)
+                        .addComponent(jButton4)
+                        .addComponent(jButton3)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel6))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panel_exibicao.setBackground(new java.awt.Color(255, 0, 51));
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton3, jButton4, jButton5});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -394,18 +426,18 @@ public class PrincipalView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panel_exibicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_exibicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(panel_exibicao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panel_exibicao, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -413,23 +445,23 @@ public class PrincipalView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        addPanelExibicao(new JIF_Area(),true);
+        addPanelExibicao(jif_Area,true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        addPanelExibicao(new JIF_SalaAula(),true);
+        addPanelExibicao(jif_SalaAula,true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        addPanelExibicao(new JIF_Instrutor(),true);
+        addPanelExibicao(jif_Instrutor,true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        addPanelExibicao(new JIF_Curso(),true);
+        addPanelExibicao(jif_Curso,true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        addPanelExibicao(new JIF_Agendamento(), true);
+        addPanelExibicao(jif_Agendamento, true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void main(String args[]) {
@@ -469,8 +501,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -485,6 +516,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JLabel jl_loading;
     private javax.swing.JPanel panel_exibicao;
     // End of variables declaration//GEN-END:variables
     public static PrincipalView _this;

@@ -57,7 +57,9 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         btn_excluir = new javax.swing.JButton();
 
         setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setTitle("Cadastro de Áreas");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 16x16.png"))); // NOI18N
 
         masterTable.getTableHeader().setReorderingAllowed(false);
 

@@ -421,7 +421,6 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jc_unidade">
           <Properties>
-            <Property name="selectedIndex" type="int" value="-1"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
@@ -433,7 +432,6 @@
         </Component>
         <Component class="javax.swing.JComboBox" name="jc_sala">
           <Properties>
-            <Property name="selectedIndex" type="int" value="-1"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
@@ -486,7 +484,7 @@
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="bt_salvar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -543,11 +541,17 @@
         </Container>
         <Component class="javax.swing.JButton" name="bt_salvar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Salvar Altera&#xe7;&#xf5;es"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/agendacoped/icon/salvar.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="bt_agendar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/agendacoped/icon/Agendamento 24x24.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Agendar"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
