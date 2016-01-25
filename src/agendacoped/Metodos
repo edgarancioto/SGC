@@ -1,14 +1,3 @@
-LISTA DE ICONES NECESSÁRIOS
-    Buscar
-    Novo
-    Concluir
-    Salvar
-    Editar
-    Excluir
-    DesktopIcon
-    Agendar
-
-
 CADASTROS
     Main
         entityManager.getTransaction().begin();

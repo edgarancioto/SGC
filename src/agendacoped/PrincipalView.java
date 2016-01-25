@@ -5,6 +5,9 @@ import agendacoped.cadastro.JIF_Area;
 import agendacoped.cadastro.JIF_Curso;
 import agendacoped.cadastro.JIF_Instrutor;
 import agendacoped.cadastro.JIF_SalaAula;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 public class PrincipalView extends javax.swing.JFrame {
@@ -356,7 +359,7 @@ public class PrincipalView extends javax.swing.JFrame {
         });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Area.png"))); // NOI18N
-        jButton1.setText("Area");
+        jButton1.setText("Área");
         jButton1.setEnabled(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
