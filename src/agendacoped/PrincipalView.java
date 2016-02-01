@@ -52,6 +52,7 @@ public class PrincipalView extends javax.swing.JFrame {
             panel_exibicao.removeAll();
         panel_exibicao.repaint();
         panel_exibicao.add(jif);
+        jif.setVisible(true);
         panel_exibicao.revalidate();
     }
     

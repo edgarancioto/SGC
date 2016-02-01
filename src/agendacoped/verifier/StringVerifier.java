@@ -52,7 +52,7 @@ public class StringVerifier extends InputVerifier{
         if(verify(input))
             return true;
 
-        JOptionPane.showMessageDialog(input, "O campo '"+input.getAccessibleContext().getAccessibleDescription()+"' não está preenchido corretamente!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(input, "O campo '"+input.getAccessibleContext().getAccessibleDescription()+"' precisa ser preenchido corretamente!", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
         input.setBackground(COR);
         input.requestFocus();
         return false;

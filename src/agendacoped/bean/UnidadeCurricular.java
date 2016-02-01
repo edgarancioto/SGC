@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package agendacoped.bean;
 
 import java.beans.PropertyChangeListener;
@@ -24,17 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-/**
- *
- * @author Edgar
- */
 @Entity
 @Table(name = "unidade_curricular")
 @NamedQueries({
     @NamedQuery(name = "UnidadeCurricular.findAll", query = "SELECT u FROM UnidadeCurricular u")})
 public class UnidadeCurricular implements Serializable {
-    @Column(name = "PERIODO")
-    private Integer periodo;
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
@@ -46,9 +35,11 @@ public class UnidadeCurricular implements Serializable {
     @Column(name = "NOME")
     private String nome;
     @Column(name = "CARGA_H")
-    private Integer cargaH;
+    private Integer cargaH = 0;
     @Column(name = "STATUS")
     private Boolean status;
+    @Column(name = "PERIODO")
+    private Integer periodo;
     @JoinColumn(name = "CURSOS_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Cursos cursosId;
@@ -129,7 +120,6 @@ public class UnidadeCurricular implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof UnidadeCurricular)) {
             return false;
         }
@@ -159,6 +149,5 @@ public class UnidadeCurricular implements Serializable {
 
     public void setPeriodo(Integer periodo) {
         this.periodo = periodo;
-    }
-    
+    }   
 }
