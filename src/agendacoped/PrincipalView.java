@@ -80,6 +80,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jCalendar1 = new com.toedter.calendar.JCalendar();
         jl_loading = new javax.swing.JLabel();
+        jMenu1 = new javax.swing.JMenu();
         panel_exibicao = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
@@ -319,6 +320,8 @@ public class PrincipalView extends javax.swing.JFrame {
 
         jl_loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Loading.gif"))); // NOI18N
 
+        jMenu1.setText("jMenu1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema Gerenciador Corporativo");
         setExtendedState(MAXIMIZED_BOTH);
@@ -400,9 +403,9 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 372, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addGap(32, 32, 32))
+                .addContainerGap())
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton3, jButton4, jButton5});
@@ -506,6 +509,7 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

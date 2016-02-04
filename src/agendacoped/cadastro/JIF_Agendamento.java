@@ -15,6 +15,7 @@ import javax.persistence.RollbackException;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
@@ -576,7 +577,24 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jc_instrutorActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
+        for (JComponent lc : listComponents) {
+            lc.setEnabled(false);
+            if (lc instanceof JComboBox) 
+                ((JComboBox) lc).setSelectedIndex(-1);
+            else
+                if (lc instanceof JTextField) 
+                    ((JTextField) lc).setText("");
+        }
+        listCursos.clear();
+        listInstrutor.clear();
+        listSala.clear();
+        listUnidade.clear();
+        listCursos.addAll(queryCursos.getResultList());
+        listInstrutor.addAll(queryInstrutor.getResultList());
+        listUnidade.addAll(queryUnidade.getResultList());
+        listSala.addAll(querySala.getResultList());
+        bindingGroup.unbind();
+        bindingGroup.bind();
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void bt_agendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_agendarActionPerformed
