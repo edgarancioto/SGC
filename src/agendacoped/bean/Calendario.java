@@ -6,6 +6,7 @@
 package agendacoped.bean;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
@@ -54,7 +56,9 @@ public class Calendario implements Serializable {
     @JoinColumn(name = "AGENDA_AULA_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private AgendaAula agendaAulaId;
-
+    @Transient
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM");
+    
     public Calendario() {
     }
 
@@ -148,7 +152,7 @@ public class Calendario implements Serializable {
 
     @Override
     public String toString() {
-        return "agendacoped.bean.Calendario[ id=" + id + " ]";
+        return ""+format.format(diaAula)+"-"+agendaAulaId.getInstrutoresId().getNome()+"-"+agendaAulaId.getUnidadeCurricularId().getNome()+"-"+salasAulaId.getNome();
     }
     
 }

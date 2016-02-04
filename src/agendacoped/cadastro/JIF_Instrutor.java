@@ -30,10 +30,11 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
     }
     
     void atualiza(){
-        busca("");
+        
         txt_busca.setText("");
         bindingGroup.unbind();
         bindingGroup.bind();
+        busca("");
     }
     
     @SuppressWarnings("unchecked")

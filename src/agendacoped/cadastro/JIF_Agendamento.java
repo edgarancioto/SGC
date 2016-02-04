@@ -1,12 +1,14 @@
 package agendacoped.cadastro;
 
+import agendacoped.bean.AgendaAula;
 import agendacoped.bean.Calendario;
 import agendacoped.bean.Cursos;
 import agendacoped.bean.Evento;
 import agendacoped.bean.Instrutores;
 import agendacoped.bean.SalasAula;
 import agendacoped.bean.UnidadeCurricular;
-import agendacoped.calendario.JP_Calendario;
+import agendacoped.calendario.Bean_Calendario;
+import agendacoped.calendario.Bean_Dia;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import javax.persistence.RollbackException;
@@ -18,7 +20,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
     Evento eventoSelecionado;
     ArrayList<JComponent> listComponents = new ArrayList<>();
-    JP_Calendario calendario;
+    Bean_Calendario bean_calendario;
     
     public JIF_Agendamento() {
         initComponents();
@@ -35,22 +37,36 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         jc_instrutor.setSelectedIndex(-1);
     }
 
+    /**
+     *  Criação do JP_Calendario passando mês e ano atual
+     *  
+     */
     final void criaCalendario(){
         GregorianCalendar gc = new GregorianCalendar();
-        calendario = new JP_Calendario(gc.get(GregorianCalendar.MONTH)+1, gc.get(GregorianCalendar.YEAR));
-        jp_calendario.add(calendario).setBounds(0, 0, 350, 250);
+        bean_calendario = new Bean_Calendario(gc.get(GregorianCalendar.MONTH)+1, gc.get(GregorianCalendar.YEAR));
+        jp_calendario.add(bean_calendario).setBounds(0, 0, 350, 250);
     }
     
+    /**
+     * * @param indice 
+     *   Desbloqueia os próximos campos conforme o preenchimento
+     */
     void desbloqueiaCampo(int indice){
-        calendario.liberaDias();
         listComponents.get(indice-1).setEnabled(true);
         listComponents.get(indice-1).requestFocus();
         if(listComponents.get(indice-1) instanceof JComboBox)
             ((JComboBox)listComponents.get(indice-1)).setSelectedIndex(-1);
-        for(int i = indice; i<listComponents.size(); i++)
+        for(int i = indice; i<listComponents.size(); i++){
             listComponents.get(i).setEnabled(false);
+            if(listComponents.get(i) instanceof JComboBox)
+                ((JComboBox)listComponents.get(i)).setSelectedIndex(-1);
+        }
     }
     
+    /**
+     *  verifica se evento já existe para cadastro ou alteração
+     * @return Evento
+     */
     Evento verificaEventoExistente(){
         try{
             int i = Integer.parseInt(txt_numeroEvento.getText());
@@ -65,29 +81,34 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         try {
             entityManager.getTransaction().commit();
             entityManager.getTransaction().begin();
+            JOptionPane.showMessageDialog(null, "Agendamento salvo com sucesso!");
         } catch (RollbackException rex) {
             entityManager.getTransaction().begin();
             JOptionPane.showMessageDialog(null, "Erro ao salvar!");
         }
     }
     
+    /**
+     *  Filtra por periodo E sala ou instrutor ocupados
+     *  busca entre os filtrados suas datas e as destaca
+     */
     void filtraDados(){
+        bean_calendario.liberaDias();
         ArrayList<Calendario> list = new ArrayList<>();
         for(Calendario c:listCalendarioFull)
-            if((c.getPeriodo() == jc_periodo.getSelectedIndex()+1)
+            if(
+                   (c.getPeriodo() == jc_periodo.getSelectedIndex()+1)
                 && ((c.getSalasAulaId() == listSala.get(jc_sala.getSelectedIndex()))
-                || (jc_instrutor.getSelectedIndex()!=-1 && (c.getAgendaAulaId().getInstrutoresId() == listInstrutor.get(jc_instrutor.getSelectedIndex()))))){
-                
-        
-                list.add(c);
-            }
-        
+                || (jc_instrutor.getSelectedIndex()!=-1 
+                && (c.getAgendaAulaId().getInstrutoresId() == listInstrutor.get(jc_instrutor.getSelectedIndex())))))
+                        list.add(c);
+            
         GregorianCalendar gc = new GregorianCalendar();
         GregorianCalendar gc1 = new GregorianCalendar();
         for(Calendario c:list){
             gc1.setTime(c.getDiaAula());
             if(gc.get(GregorianCalendar.MONTH)==gc1.get(GregorianCalendar.MONTH))
-                calendario.reservaDia(gc1.get(GregorianCalendar.DAY_OF_MONTH));
+                bean_calendario.diaOcupado(gc1.get(GregorianCalendar.DAY_OF_MONTH));
         }
     }
     
@@ -109,6 +130,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         listUnidade = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryUnidade.getResultList();
         listInstrutor = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryInstrutor.getResultList();
         listCalendarioFull = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : queryCalendario.getResultList();
+        listCalendarioAgendado = new ArrayList<>();
         jd_evento = new javax.swing.JDialog();
         txt_numeroEvento = new javax.swing.JTextField();
         cb_curso = new javax.swing.JComboBox();
@@ -136,7 +158,6 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         jList1 = new javax.swing.JList();
         bt_salvar = new javax.swing.JButton();
         bt_agendar = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
 
         jd_evento.setTitle("Cadastro de Evento");
         jd_evento.setAlwaysOnTop(true);
@@ -232,7 +253,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_cargaHoraria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        txt_cargaHoraria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
         txt_cargaHoraria.setEnabled(false);
         txt_cargaHoraria.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -240,7 +261,11 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_inicioAula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        try {
+            txt_inicioAula.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txt_inicioAula.setEnabled(false);
         txt_inicioAula.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -377,18 +402,27 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dias de Aulas"));
 
+        org.jdesktop.swingbinding.JListBinding jListBinding = org.jdesktop.swingbinding.SwingBindings.createJListBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listCalendarioAgendado, jList1, "teste");
+        bindingGroup.addBinding(jListBinding);
+
         jScrollPane1.setViewportView(jList1);
 
         bt_salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/salvar.png"))); // NOI18N
         bt_salvar.setText("Salvar");
+        bt_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_salvarActionPerformed(evt);
+            }
+        });
 
         bt_agendar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 24x24.png"))); // NOI18N
         bt_agendar.setText("Agendar");
         bt_agendar.setEnabled(false);
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Carga Horária Decrescente");
+        bt_agendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_agendarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -396,15 +430,13 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jp_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jp_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(bt_agendar)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bt_salvar)))
@@ -424,8 +456,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(bt_agendar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jp_calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9)))
+                        .addGap(28, 28, 28)))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -496,25 +527,31 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         }
   
         entityManager.persist(eventoSelecionado);
-        salvar();
         jd_evento.setVisible(false);
         txt_eventoBloq.setText(eventoSelecionado.getNumero()+"");
         desbloqueiaCampo(1);
+        bean_calendario.liberaDias();
     }//GEN-LAST:event_btn_carregarActionPerformed
 
     private void jc_periodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_periodoActionPerformed
-        if(jc_periodo.getSelectedIndex()!=-1 && evt.getModifiers()!=0)
+        if(jc_periodo.getSelectedIndex()!=-1 && evt.getModifiers()!=0){
             desbloqueiaCampo(2);
+            bean_calendario.liberaDias();
+        }
     }//GEN-LAST:event_jc_periodoActionPerformed
 
     private void txt_inicioAulaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_inicioAulaFocusLost
-        if(!txt_inicioAula.getText().isEmpty())
+        if(!txt_inicioAula.getText().isEmpty()){
             desbloqueiaCampo(3);
+            bean_calendario.liberaDias();
+        }
     }//GEN-LAST:event_txt_inicioAulaFocusLost
 
     private void txt_cargaHorariaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_cargaHorariaFocusLost
-        if(!txt_cargaHoraria.getText().isEmpty())
+        if(!txt_cargaHoraria.getText().isEmpty()){
             desbloqueiaCampo(4);
+            bean_calendario.liberaDias();
+        }
     }//GEN-LAST:event_txt_cargaHorariaFocusLost
 
     private void jc_salaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_salaActionPerformed
@@ -525,8 +562,10 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jc_salaActionPerformed
 
     private void jc_unidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_unidadeActionPerformed
-        if(jc_unidade.getSelectedIndex()!=-1 && evt.getModifiers()!=0)
+        if(jc_unidade.getSelectedIndex()!=-1 && evt.getModifiers()!=0){
             desbloqueiaCampo(6);
+            filtraDados();
+        }
     }//GEN-LAST:event_jc_unidadeActionPerformed
 
     private void jc_instrutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jc_instrutorActionPerformed
@@ -539,6 +578,40 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void bt_agendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_agendarActionPerformed
+        ArrayList<Bean_Dia> listDiasSelecionados = bean_calendario.getDiasSelecionados();
+        if(listDiasSelecionados.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Selecione os dias para prosseguir!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        AgendaAula agendaAula = new AgendaAula();
+        agendaAula.setInstrutoresId(listInstrutor.get(jc_instrutor.getSelectedIndex()));
+        agendaAula.setUnidadeCurricularId(listUnidade.get(jc_unidade.getSelectedIndex()));
+        agendaAula.setEventoId(eventoSelecionado);
+        entityManager.persist(agendaAula);
+        
+        GregorianCalendar gc = new GregorianCalendar();
+        
+        for(Bean_Dia dia:listDiasSelecionados){
+            Calendario calendario = new Calendario();
+            calendario.setAgendaAulaId(agendaAula);
+            calendario.setSalasAulaId(listSala.get(jc_sala.getSelectedIndex()));
+            gc.set(bean_calendario.getAno(), bean_calendario.getMes(), dia.getId());
+            calendario.setDiaAula(gc.getTime());
+            calendario.setPeriodo(jc_periodo.getSelectedIndex()+1);
+            entityManager.persist(calendario);
+            listCalendarioAgendado.add(calendario);
+            listCalendarioFull.add(calendario);
+            bindingGroup.getBinding("teste").unbind();
+            bindingGroup.getBinding("teste").bind();
+        }
+    }//GEN-LAST:event_bt_agendarActionPerformed
+
+    private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
+        salvar();
+    }//GEN-LAST:event_bt_salvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_agendar;
@@ -554,7 +627,6 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -566,6 +638,7 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private javax.swing.JDialog jd_evento;
     private javax.swing.JLabel jl_eventoStatus;
     private javax.swing.JPanel jp_calendario;
+    private java.util.List<Calendario> listCalendarioAgendado;
     private java.util.List<Calendario> listCalendarioFull;
     private java.util.List<Cursos> listCursos;
     private java.util.List<Evento> listEvento;

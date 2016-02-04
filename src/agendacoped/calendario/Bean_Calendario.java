@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class JP_Calendario extends javax.swing.JPanel {
+public class Bean_Calendario extends javax.swing.JPanel {
 
     int mes, ano;
     int[] posicoes_h = new int[]{0,50,100,150,200,250,300};
@@ -12,9 +12,9 @@ public class JP_Calendario extends javax.swing.JPanel {
     String[] meses = new String[]{"JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", 
         "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
     
-    ArrayList<JL_Dia> listDias = new ArrayList<>();
+    ArrayList<Bean_Dia> listDias = new ArrayList<>();
     
-    public JP_Calendario(int mes, int ano) {
+    public Bean_Calendario(int mes, int ano) {
         this.mes = mes-1;
         this.ano = ano;
         initComponents();
@@ -40,7 +40,7 @@ public class JP_Calendario extends javax.swing.JPanel {
         for(int j = 0; j < 6; j++){
             for(int i = dia_da_semana; i < 7; i++)
                 if(contador <= quantidade_dias){
-                    JL_Dia l = new JL_Dia(contador++);
+                    Bean_Dia l = new Bean_Dia(contador++);
                     listDias.add(l);
                     panel_exibicao.add(l).setBounds(posicoes_h[i], posicoes_v[j], 50, 25);
                     if(i==0)
@@ -50,13 +50,29 @@ public class JP_Calendario extends javax.swing.JPanel {
         }
     }
     
-    public void reservaDia(int dia){
+    public int getMes(){
+        return mes;
+    }
+    
+    public int getAno(){
+        return ano;
+    }
+    
+    public void diaOcupado(int dia){
         listDias.get(dia-1).setOcupado();
     }
     
     public void liberaDias(){
-        for(JL_Dia l: listDias)
+        for(Bean_Dia l: listDias)
             l.setDesocupado();
+    }
+    
+    public ArrayList<Bean_Dia> getDiasSelecionados(){
+        ArrayList<Bean_Dia> listDiasSelecionados = new ArrayList<>();
+        for(Bean_Dia d:listDias)
+            if(d.getSelecionado())
+                listDiasSelecionados.add(d);
+        return listDiasSelecionados;
     }
     
     @SuppressWarnings("unchecked")
@@ -265,7 +281,6 @@ public class JP_Calendario extends javax.swing.JPanel {
         }
         exibeDias(mes, ano);
     }//GEN-LAST:event_jl_proximoMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
