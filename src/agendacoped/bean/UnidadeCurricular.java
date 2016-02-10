@@ -38,8 +38,6 @@ public class UnidadeCurricular implements Serializable {
     private Integer cargaH = 0;
     @Column(name = "STATUS")
     private Boolean status;
-    @Column(name = "PERIODO")
-    private Integer periodo;
     @JoinColumn(name = "CURSOS_ID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private Cursos cursosId;
@@ -141,13 +139,5 @@ public class UnidadeCurricular implements Serializable {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
-    }
-
-    public Integer getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Integer periodo) {
-        this.periodo = periodo;
-    }   
+    }  
 }

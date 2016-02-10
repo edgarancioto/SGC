@@ -1,6 +1,8 @@
 package agendacoped.cadastro;
 
 import agendacoped.PrincipalView;
+import agendacoped.bean.Cursos;
+import agendacoped.bean.UnidadeCurricular;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.RollbackException;
@@ -37,6 +39,15 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         bindingGroup.bind();
     }
     
+    boolean validaDados(){
+        if(txt_nome.getText().isEmpty() || cb_modalidade.getSelectedItem()==null ||
+                cb_area.getSelectedItem()==null || txt_cargaTotal.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de continuar!","Atenção",JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,11 +70,12 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         cb_area = new javax.swing.JComboBox();
         txt_nome = new javax.swing.JTextField();
         txt_busca = new javax.swing.JTextField();
-        txt_cargaTotal = new javax.swing.JTextField();
+        txt_cargaTotal = new javax.swing.JFormattedTextField();
         btn_novo = new javax.swing.JButton();
         btn_excluir = new javax.swing.JButton();
         bt_cadastrarUnidade = new javax.swing.JButton();
         cb_modalidade = new javax.swing.JComboBox();
+        btn_moduloUnico = new javax.swing.JButton();
 
         setClosable(true);
         setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
@@ -119,11 +131,11 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_cargaTotal.setInputVerifier(stringVerifier1);
+        txt_cargaTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTableCursos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cargaH}"), txt_cargaTotal, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTableCursos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), txt_cargaTotal, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTableCursos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cargaH}"), txt_cargaTotal, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         btn_novo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/novo.png"))); // NOI18N
@@ -165,6 +177,14 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTableCursos, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), cb_modalidade, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
+        btn_moduloUnico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/salvar.png"))); // NOI18N
+        btn_moduloUnico.setText("Módulo Único");
+        btn_moduloUnico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_moduloUnicoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,7 +203,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addGap(9, 9, 9))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(modalidadeLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -195,19 +215,21 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txt_cargaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txt_cargaTotal)
+                                .addGap(18, 18, 18)
                                 .addComponent(bt_cadastrarUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(nomeLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_novo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_excluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_moduloUnico)
                 .addContainerGap())
         );
 
@@ -242,14 +264,17 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
                     .addComponent(txt_cargaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_excluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_excluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_moduloUnico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btn_novo))
                 .addContainerGap())
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_excluir, btn_moduloUnico});
+
         cb_area.getAccessibleContext().setAccessibleDescription("Área");
         txt_nome.getAccessibleContext().setAccessibleDescription("Nome");
-        txt_cargaTotal.getAccessibleContext().setAccessibleDescription("Carga Horária");
         cb_modalidade.getAccessibleContext().setAccessibleDescription("Modalidade");
 
         bindingGroup.bind();
@@ -302,12 +327,8 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_buscaKeyReleased
 
     private void bt_cadastrarUnidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarUnidadeActionPerformed
-        if(txt_nome.getText().isEmpty() || cb_modalidade.getSelectedItem()==null ||
-            cb_area.getSelectedItem()==null || txt_cargaTotal.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos antes de continuar!","Atenção",JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        PrincipalView._this.addPanelExibicao(new JIF_UnidadeCurricular(listCursos.get(masterTableCursos.getSelectedRow())), true);
+        if(validaDados())
+            PrincipalView._this.addPanelExibicao(new JIF_UnidadeCurricular(listCursos.get(masterTableCursos.getSelectedRow())), true);
     }//GEN-LAST:event_bt_cadastrarUnidadeActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -315,10 +336,47 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         busca("");
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    private void btn_moduloUnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_moduloUnicoActionPerformed
+        Cursos curso = listCursos.get(masterTableCursos.getSelectedRow());
+        if(validaDados()){
+            if(curso.getUnidadeCurricularCollection()!=null)
+                if(!curso.getUnidadeCurricularCollection().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Já existem Unidades cadastradas para esse curso!","Atenção",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            UnidadeCurricular uc = new UnidadeCurricular();
+            uc.setCursosId(curso);
+            uc.setCargaH(Integer.parseInt(txt_cargaTotal.getText()));
+            uc.setNome(curso.getNome());
+
+            if(curso.getId()!=null)
+                entityManager.merge(curso);
+            else
+                entityManager.persist(curso);
+            entityManager.persist(uc);
+            
+            try {
+                entityManager.getTransaction().commit();
+                entityManager.getTransaction().begin();
+                masterTableCursos.clearSelection();
+            } catch (RollbackException rex) {
+                entityManager.getTransaction().begin();
+                List<agendacoped.bean.Cursos> merged = new ArrayList<>(listCursos.size());
+                for (agendacoped.bean.Cursos a : listCursos) {
+                    merged.add(entityManager.merge(a));
+                }
+                listCursos.clear();
+                listCursos.addAll(merged);
+                JOptionPane.showMessageDialog(null, "Erro ao salvar!");
+            }
+            PrincipalView._this.addPanelExibicao(new JIF_Curso(), true);
+        }
+    }//GEN-LAST:event_btn_moduloUnicoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_cadastrarUnidade;
     private javax.swing.JButton btn_excluir;
+    private javax.swing.JButton btn_moduloUnico;
     private javax.swing.JButton btn_novo;
     private javax.swing.JComboBox cb_area;
     private javax.swing.JComboBox cb_modalidade;
@@ -337,7 +395,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
     private javax.persistence.Query queryCurso;
     private agendacoped.verifier.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_busca;
-    private javax.swing.JTextField txt_cargaTotal;
+    private javax.swing.JFormattedTextField txt_cargaTotal;
     private javax.swing.JTextField txt_nome;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables

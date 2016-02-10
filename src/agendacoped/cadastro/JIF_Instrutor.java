@@ -124,6 +124,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txt_telefone.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
         txt_telefone.setInputVerifier(stringVerifier1);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement!=null}"), txt_telefone, org.jdesktop.beansbinding.BeanProperty.create("enabled"));

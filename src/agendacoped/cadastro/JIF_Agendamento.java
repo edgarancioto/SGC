@@ -273,6 +273,11 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
                 txt_inicioAulaFocusLost(evt);
             }
         });
+        txt_inicioAula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_inicioAulaKeyReleased(evt);
+            }
+        });
 
         jc_instrutor.setEnabled(false);
 
@@ -630,6 +635,10 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
     private void bt_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_salvarActionPerformed
         salvar();
     }//GEN-LAST:event_bt_salvarActionPerformed
+
+    private void txt_inicioAulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_inicioAulaKeyReleased
+        System.out.println(txt_inicioAula.isEditValid());
+    }//GEN-LAST:event_txt_inicioAulaKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_agendar;

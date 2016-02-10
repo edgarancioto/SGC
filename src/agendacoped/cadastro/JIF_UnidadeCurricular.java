@@ -15,13 +15,10 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
         initComponents();
         entityManager.getTransaction().begin();
         
-        if(cursoSelecionado.getId()!=null){
-            System.out.println("merge");
+        if(cursoSelecionado.getId()!=null)
             entityManager.merge(cursoSelecionado);
-        }else{
+        else
             entityManager.persist(cursoSelecionado);
-            System.out.println("persist");
-        }            
         setVisible(true);
         calculaCargaRestante();
     }
