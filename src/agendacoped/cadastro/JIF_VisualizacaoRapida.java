@@ -31,7 +31,7 @@ public class JIF_VisualizacaoRapida extends javax.swing.JInternalFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         AgendaCopedPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
-        calendarioQuery = java.beans.Beans.isDesignTime() ? null : AgendaCopedPUEntityManager.createQuery("SELECT c FROM Calendario c");
+        calendarioQuery = java.beans.Beans.isDesignTime() ? null : AgendaCopedPUEntityManager.createQuery("SELECT c FROM Calendario c order by c.periodo asc");
         listCalendarioFull = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : calendarioQuery.getResultList();
         listCalendario = new ArrayList<>();
         dataConverter1 = new agendacoped.validation.DataConverter();
