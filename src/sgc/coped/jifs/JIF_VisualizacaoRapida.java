@@ -1,4 +1,4 @@
-package sgc.coped.cadastro;
+package sgc.coped.jifs;
 
 import sgc.bean.Calendario;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package sgc.coped.cadastro;
+package sgc.coped.jifs;
 
 import java.util.ArrayList;
 import java.util.List;

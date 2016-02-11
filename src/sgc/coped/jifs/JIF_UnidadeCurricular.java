@@ -1,4 +1,4 @@
-package sgc.coped.cadastro;
+package sgc.coped.jifs;
 
 import sgc.PrincipalView;
 import sgc.bean.Cursos;

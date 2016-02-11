@@ -1,11 +1,11 @@
 package sgc;
 
-import sgc.coped.cadastro.JIF_Agendamento;
-import sgc.coped.cadastro.JIF_Area;
-import sgc.coped.cadastro.JIF_Curso;
-import sgc.coped.cadastro.JIF_Instrutor;
-import sgc.coped.cadastro.JIF_SalaAula;
-import sgc.coped.cadastro.JIF_VisualizacaoRapida;
+import sgc.coped.jifs.JIF_Agendamento;
+import sgc.coped.jifs.JIF_Area;
+import sgc.coped.jifs.JIF_Curso;
+import sgc.coped.jifs.JIF_Instrutor;
+import sgc.coped.jifs.JIF_SalaAula;
+import sgc.coped.jifs.JIF_VisualizacaoRapida;
 import javax.swing.JInternalFrame;
 
 public class PrincipalView extends javax.swing.JFrame {
