@@ -2,14 +2,14 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="AgendaCopedPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>agendacoped.bean.Evento</class>
-    <class>agendacoped.bean.Instrutores</class>
-    <class>agendacoped.bean.Calendario</class>
-    <class>agendacoped.bean.Cursos</class>
-    <class>agendacoped.bean.AgendaAula</class>
-    <class>agendacoped.bean.Areas</class>
-    <class>agendacoped.bean.SalasAula</class>
-    <class>agendacoped.bean.UnidadeCurricular</class>
+    <class>sgc.bean.SalasAula</class>
+    <class>sgc.bean.Evento</class>
+    <class>sgc.bean.Calendario</class>
+    <class>sgc.bean.Instrutores</class>
+    <class>sgc.bean.Cursos</class>
+    <class>sgc.bean.Areas</class>
+    <class>sgc.bean.AgendaAula</class>
+    <class>sgc.bean.UnidadeCurricular</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bdagenda?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>
