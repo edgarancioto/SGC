@@ -1,5 +1,6 @@
 package agendacoped.cadastro;
 
+import agendacoped.PrincipalView;
 import agendacoped.bean.AgendaAula;
 import agendacoped.bean.Calendario;
 import agendacoped.bean.Cursos;
@@ -9,8 +10,12 @@ import agendacoped.bean.SalasAula;
 import agendacoped.bean.UnidadeCurricular;
 import agendacoped.calendario.Bean_Calendario;
 import agendacoped.calendario.Bean_Dia;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.RollbackException;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -301,7 +306,8 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
 
         jc_unidade.setEnabled(false);
 
-        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listUnidade, jc_unidade);
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${selectedItem.unidadeCurricularCollection}");
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cb_curso, eLProperty, jc_unidade);
         bindingGroup.addBinding(jComboBoxBinding);
 
         jc_unidade.addActionListener(new java.awt.event.ActionListener() {
@@ -618,11 +624,18 @@ public class JIF_Agendamento extends javax.swing.JInternalFrame {
         GregorianCalendar gc = new GregorianCalendar();
         
         for(Bean_Dia dia:listDiasSelecionados){
+            gc.set(bean_calendario.getAno(), bean_calendario.getMes(), dia.getId());
             Calendario calendario = new Calendario();
             calendario.setAgendaAulaId(agendaAula);
             calendario.setSalasAulaId(listSala.get(jc_sala.getSelectedIndex()));
-            gc.set(bean_calendario.getAno(), bean_calendario.getMes(), dia.getId());
             calendario.setDiaAula(gc.getTime());
+            calendario.setHoraAula(Integer.parseInt(txt_cargaHoraria.getText()));
+            try {
+                SimpleDateFormat sf = new SimpleDateFormat("HH:mm");
+                calendario.setHoraInicio(sf.parse(txt_inicioAula.getText()));
+            } catch (ParseException ex) {
+                Logger.getLogger(PrincipalView.class.getName()).log(Level.SEVERE, null, ex);
+            }
             calendario.setPeriodo(jc_periodo.getSelectedIndex()+1);
             entityManager.persist(calendario);
             listCalendarioAgendado.add(calendario);

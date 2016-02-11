@@ -5,6 +5,8 @@
  */
 package agendacoped.bean;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +34,8 @@ import javax.persistence.Transient;
 @NamedQueries({
     @NamedQuery(name = "Calendario.findAll", query = "SELECT c FROM Calendario c")})
 public class Calendario implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +75,9 @@ public class Calendario implements Serializable {
     }
 
     public void setId(Integer id) {
+        Integer oldId = this.id;
         this.id = id;
+        changeSupport.firePropertyChange("id", oldId, id);
     }
 
     public Date getDiaAula() {
@@ -79,7 +85,9 @@ public class Calendario implements Serializable {
     }
 
     public void setDiaAula(Date diaAula) {
+        Date oldDiaAula = this.diaAula;
         this.diaAula = diaAula;
+        changeSupport.firePropertyChange("diaAula", oldDiaAula, diaAula);
     }
 
     public Integer getHoraAula() {
@@ -87,7 +95,9 @@ public class Calendario implements Serializable {
     }
 
     public void setHoraAula(Integer horaAula) {
+        Integer oldHoraAula = this.horaAula;
         this.horaAula = horaAula;
+        changeSupport.firePropertyChange("horaAula", oldHoraAula, horaAula);
     }
 
     public Date getHoraInicio() {
@@ -95,7 +105,9 @@ public class Calendario implements Serializable {
     }
 
     public void setHoraInicio(Date horaInicio) {
+        Date oldHoraInicio = this.horaInicio;
         this.horaInicio = horaInicio;
+        changeSupport.firePropertyChange("horaInicio", oldHoraInicio, horaInicio);
     }
 
     public Integer getPeriodo() {
@@ -103,7 +115,9 @@ public class Calendario implements Serializable {
     }
 
     public void setPeriodo(Integer periodo) {
+        Integer oldPeriodo = this.periodo;
         this.periodo = periodo;
+        changeSupport.firePropertyChange("periodo", oldPeriodo, periodo);
     }
 
     public Boolean getStatus() {
@@ -111,7 +125,9 @@ public class Calendario implements Serializable {
     }
 
     public void setStatus(Boolean status) {
+        Boolean oldStatus = this.status;
         this.status = status;
+        changeSupport.firePropertyChange("status", oldStatus, status);
     }
 
     public SalasAula getSalasAulaId() {
@@ -119,7 +135,9 @@ public class Calendario implements Serializable {
     }
 
     public void setSalasAulaId(SalasAula salasAulaId) {
+        SalasAula oldSalasAulaId = this.salasAulaId;
         this.salasAulaId = salasAulaId;
+        changeSupport.firePropertyChange("salasAulaId", oldSalasAulaId, salasAulaId);
     }
 
     public AgendaAula getAgendaAulaId() {
@@ -127,7 +145,9 @@ public class Calendario implements Serializable {
     }
 
     public void setAgendaAulaId(AgendaAula agendaAulaId) {
+        AgendaAula oldAgendaAulaId = this.agendaAulaId;
         this.agendaAulaId = agendaAulaId;
+        changeSupport.firePropertyChange("agendaAulaId", oldAgendaAulaId, agendaAulaId);
     }
 
     @Override
@@ -153,6 +173,14 @@ public class Calendario implements Serializable {
     @Override
     public String toString() {
         return ""+format.format(diaAula)+"-"+agendaAulaId.getInstrutoresId().getNome()+"-"+agendaAulaId.getUnidadeCurricularId().getNome()+"-"+salasAulaId.getNome();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
     
 }

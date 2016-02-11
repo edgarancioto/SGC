@@ -441,7 +441,7 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="listUnidade" target="jc_unidade" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="elements" source="cb_curso" sourcePath="${selectedItem.unidadeCurricularCollection}" target="jc_unidade" targetPath="elements" updateStrategy="0" immediately="false"/>
           </BindingProperties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jc_unidadeActionPerformed"/>

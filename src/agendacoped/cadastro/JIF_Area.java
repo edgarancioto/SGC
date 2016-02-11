@@ -44,7 +44,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
-        stringVerifier1 = new agendacoped.verifier.StringVerifier();
+        stringVerifier1 = new agendacoped.validation.StringVerifier();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         nomeLabel = new javax.swing.JLabel();
@@ -64,6 +64,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(500, 400));
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         masterTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
@@ -267,7 +268,7 @@ public class JIF_Area extends javax.swing.JInternalFrame {
     private javax.swing.JTable masterTable;
     private javax.swing.JLabel nomeLabel;
     private javax.persistence.Query query;
-    private agendacoped.verifier.StringVerifier stringVerifier1;
+    private agendacoped.validation.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_busca;
     private javax.swing.JTextField txt_nome;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

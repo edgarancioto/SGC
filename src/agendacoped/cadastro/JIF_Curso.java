@@ -58,7 +58,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
         queryArea = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
         listCursos = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryCurso.getResultList());
         listArea = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryArea.getResultList());
-        stringVerifier1 = new agendacoped.verifier.StringVerifier();
+        stringVerifier1 = new agendacoped.validation.StringVerifier();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -100,6 +100,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
 
         modalidadeLabel.setText("Modalidade");
 
+        masterTableCursos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         masterTableCursos.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listCursos, masterTableCursos);
@@ -393,7 +394,7 @@ public class JIF_Curso extends javax.swing.JInternalFrame {
     private javax.swing.JLabel nomeLabel;
     private javax.persistence.Query queryArea;
     private javax.persistence.Query queryCurso;
-    private agendacoped.verifier.StringVerifier stringVerifier1;
+    private agendacoped.validation.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_busca;
     private javax.swing.JFormattedTextField txt_cargaTotal;
     private javax.swing.JTextField txt_nome;

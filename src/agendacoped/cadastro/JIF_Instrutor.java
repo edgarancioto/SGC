@@ -45,7 +45,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Instrutores a");
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
-        stringVerifier1 = new agendacoped.verifier.StringVerifier();
+        stringVerifier1 = new agendacoped.validation.StringVerifier();
         queryArea = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT a FROM Areas a");
         listArea = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(queryArea.getResultList());
         masterScrollPane = new javax.swing.JScrollPane();
@@ -71,6 +71,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 16x16.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 400));
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         masterTable.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
@@ -325,7 +326,7 @@ public class JIF_Instrutor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel nomeLabel;
     private javax.persistence.Query query;
     private javax.persistence.Query queryArea;
-    private agendacoped.verifier.StringVerifier stringVerifier1;
+    private agendacoped.validation.StringVerifier stringVerifier1;
     private javax.swing.JLabel telefoneLabel;
     private javax.swing.JTextField txt_busca;
     private javax.swing.JTextField txt_email;

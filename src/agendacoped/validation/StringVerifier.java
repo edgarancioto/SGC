@@ -1,4 +1,4 @@
-package agendacoped.verifier;
+package agendacoped.validation;
 
 import java.awt.Color;
 import javax.swing.InputVerifier;

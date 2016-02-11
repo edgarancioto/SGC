@@ -40,7 +40,7 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("AgendaCopedPU").createEntityManager();
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM UnidadeCurricular u WHERE u.cursosId.id = "+cursoSelecionado.getId());
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
-        stringVerifier1 = new agendacoped.verifier.StringVerifier();
+        stringVerifier1 = new agendacoped.validation.StringVerifier();
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -61,6 +61,8 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/agendacoped/icon/Agendamento 16x16.png"))); // NOI18N
         setPreferredSize(new java.awt.Dimension(500, 400));
 
+        masterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nome}"));
         columnBinding.setColumnName("Nome");
@@ -69,6 +71,7 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
         jTableBinding.bind();
         masterScrollPane.setViewportView(masterTable);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Curso");
 
         jLabel3.setText("Carga do Curso Restante");
@@ -76,6 +79,8 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
         nomeLabel.setText("Nome");
 
         cargaHLabel.setText("Carga Horária");
+
+        jl_curso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, cursoSelecionado, org.jdesktop.beansbinding.ELProperty.create("${nome}"), jl_curso, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
@@ -273,7 +278,7 @@ public class JIF_UnidadeCurricular extends javax.swing.JInternalFrame {
     private javax.swing.JTable masterTable;
     private javax.swing.JLabel nomeLabel;
     private javax.persistence.Query query;
-    private agendacoped.verifier.StringVerifier stringVerifier1;
+    private agendacoped.validation.StringVerifier stringVerifier1;
     private javax.swing.JTextField txt_carga;
     private javax.swing.JTextField txt_nome;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
